@@ -1,20 +1,26 @@
 version: '3.8'
+
 services:
   db:
-    build: ./pgdb
+    image: postgres:13 
     container_name: pgdb_container
-    restart: always
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: mi_basedatos
     ports:
       - "5432:5432"
+
   jupyter:
-    build: ./jupyterugr
+    image: jupyter/base-notebook:latest
     container_name: jupyterugr_container
-    restart: always
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
     ports:
-      - "9000:9000"
+      - "9000:8888"
     depends_on:
       - db
+    command: start-notebook.sh --NotebookApp.token=''
+
+volumes:
+  pgdata:
