@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  db:
+    build: ./pgdb
+    container_name: pgdb_container
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: mi_basedatos
+    ports:
+      - "5432:5432"
+  jupyter:
+    build: ./jupyterugr
+    container_name: jupyterugr_container
+    restart: always
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
